@@ -1,10 +1,10 @@
-try:
-    import Image
-except:
-    from PIL import Image
+# /usr/bin/python
+from PIL import Image
 
 import pytesseract
+from SimpleCV import Image as SImage
 
-img = Image.open('receipt.jpg')
-img.load()
-print(pytesseract.image_to_string(img))
+img = SImage('./images/receipt.jpg')
+img.show()
+pil_img = Image.fromstring('RGB', img.size(), img.toString())
+print(pytesseract.image_to_string(pil_img))
