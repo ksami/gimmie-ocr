@@ -1,4 +1,5 @@
 # /usr/bin/python
+from datetime import datetime
 from PIL import Image
 
 import pytesseract
@@ -13,4 +14,8 @@ img.show()
 
 # OCR
 pil_img = Image.fromstring('RGB', img.size(), img.toString())
-print(pytesseract.image_to_string(pil_img, lang='eng', config='./receipt --user-words=./eng.user-words'))
+output = pytesseract.image_to_string(pil_img, lang='eng', config='./receipt --user-words=./eng.user-words')
+
+filename = './results/' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.txt'
+with open(filename, 'w') as f:
+    f.write(output)
