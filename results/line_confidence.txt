@@ -1,88 +1,76 @@
-line: rArfR’pii‘IEE x'mp.
-conf: 56.830849
+line: MENQEEE XTRA
+conf: 34.603653
 ------------------
-line: NEX varmm
-conf: 74.653351
+line: NEX HYPERMART
+conf: 74.505531
 ------------------
-line: 13 SEFinQnun Centrcn M13142
-conf: 56.248856
+line: 13 59311911011 1391111111 1103/42
+conf: 46.579193
 ------------------
-line: _S1ngapore 555053
-conf: 68.869591
+line: .3W9690F8 555053
+conf: 59.496117
 ------------------
-line: TEL: 5634 4947/4943 .
-conf: 67.991989
+line: 11L. 5634 4947/4943 .
+conf: 58.775429
 ------------------
-line: REG N0: RC3 1.1.1311
-conf: 77.011986
+line: REG 110-. RC3 1.1.1311
+conf: 74.472992
 ------------------
-line: 531 No: 144430451870
-
-conf: 59.054695
+line: 531 N01 114100451870
+conf: 47.993706
 ------------------
-line: . 5m)
-
-conf: 70.972717
+line: . SUD
+conf: 68.295486
 ------------------
-line: ;.1-M.1.113um m; :5 :3 1,111
-
-conf: 59.845253
+line: 91111.1.113311- BI. 15 23 1.111
+conf: 53.000027
 ------------------
-line: GB S/V [-153 “HT EEOC: 1.21";
-
-conf: 61.802376
+line: GD S/V PIER NHT EEOC 1.2L-
+conf: 63.470772
 ------------------
-line: was 5mm 11an 2.05
-
-conf: 55.972542
+line: M-FRS 5911111 11141111 2.05
+conf: 53.802967
 ------------------
-line: was 90111.11: mm 2.05
-
-conf: 59.713821
+line: 11.193 90111.11 1.111311 2.05
+conf: 51.726303
 ------------------
-line: W Si‘ImACH 250»: 1.55
-
-conf: 62.308838
+line: FF SI-IMACH 25012 1.55
+conf: 62.858868
 ------------------
-line: H: p; SATAvLEEEFEUﬁ 5.75
-
-conf: 61.554344
+line: H3 DP 5111173555011 5.75
+conf: 54.845829
 ------------------
-line: NURNN FREE 6,06
-conf: 68.170853
+line: NURNN FREE 506
+conf: 61.832352
 ------------------
-line: BEE-1814?: BANANASTBAG . a .99
-conf: 57.771217
+line: BEE-113143 BMW-1937513113 . 0 .99
+conf: 53.990562
 ------------------
-line: LINK EAQD BSGmBOOOMGQQN
-
-conf: 57.739952
+line: LINK EAQD 8801000000199919
+conf: 55.746075
 ------------------
-line: 2x 0.92,
-
-conf: 47.222168
+line: 2X 0.927
+conf: 47.273338
 ------------------
-line: 113011 11 S/MIIK A 0.657
-conf: 61.847649
+line: 11301 W S/MIIK A 0.657
+conf: 62.177277
 ------------------
 line: SUBTDTAL 15 .34
 conf: 77.366554
 ------------------
-line: [UTAL 15.34
-
-conf: 71.554123
+line: FUTAL 15.34
+conf: 71.670547
 ------------------
-line: Card HB mscount 0.45
-conf: 75.457413
+line: CMJ HB 113001111 0.45
+conf: 61.082275
 ------------------
-line: ROUND‘N‘ i. i'T-‘v. ’"- _ 'A
-conf: 59.848618
+line: ROUNDWP 1. WW- 11- . -A
+conf: 53.415283
 ------------------
-line: BALANE‘E‘JDGEJD 1 1 [En 1 a ‘9 13%
-
-conf: 56.813145
+line: BALANEEEDGEJJE 1 1 KEN 1 5 191E
+conf: 56.629337
 ------------------
-line: YEA ._ 14.35
+line: YEA .. 14.35
 
 conf: 66.772469
 ------------------

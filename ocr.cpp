@@ -14,6 +14,8 @@ int main(int argc, char** argv)
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
     api->Init(NULL, "eng");
     api->SetImage(image);
+    api->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-/");
+    api->SetVariable("user_words_suffix ", "user-words");
     api->Recognize(NULL);
 
     tesseract::ResultIterator* ri = api->GetIterator();
@@ -30,7 +32,7 @@ int main(int argc, char** argv)
             delete[] line;
         } while((ri->Next(level)));
     }
-    
+
     api->End();
     pixDestroy(&image);
 
