@@ -15,7 +15,6 @@ int main(int argc, char** argv)
     api->Init(NULL, "eng");
     api->SetImage(image);
     api->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-/");
-    api->SetVariable("user_words_suffix ", "user-words");
     api->Recognize(NULL);
 
     tesseract::ResultIterator* ri = api->GetIterator();
