@@ -11,7 +11,7 @@ import shlex
 def process(filename):
     # Preprocessing
     input_img = SImage('./images/' + filename)
-    img = input_img.blur(2).binarize(128).invert().scale(2)
+    img = input_img.binarize().invert().bilateralFilter().scale(2)
     img.save('./processed/' + filename)
 
 
@@ -30,19 +30,27 @@ def process(filename):
 
     lines = output.split('\n')
     results = 'Actual | Predicted | OCR Conf\n'
+    ratio = -1
+    actual = ''
     for line in lines:
         if(line.startswith('line: ')):
             ln = line[6:]
             predicted, ratio = FProcess.extractOne(ln, choices)
-            if ratio==0:
-                results += ln + ' | '
+            if ratio >= 50:
+                item = predicted
             else:
-                results += ln + ' | (' + predicted + ', ' + str(ratio) + ') | '
+                item = ln
+
+            results += ln + ' | (' + predicted + ', ' + str(ratio) + ') | '
+            
         elif(line.startswith('conf: ')):
             ln = line[6:]
             results += ln + '\n'
+            actual += item + '\n'
 
 
     outfile = './results/' + filename + '.txt'
     with open(outfile, 'w') as f:
         f.write(results)
+
+    return actual
