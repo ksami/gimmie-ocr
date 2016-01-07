@@ -4,7 +4,7 @@
 int main(int argc, char** argv)
 {
     if(argc < 2){
-        printf("Not enough arguments");
+        printf("Not enough arguments, expecting filename");
         return 1;
     }
 
@@ -20,14 +20,13 @@ int main(int argc, char** argv)
     tesseract::ResultIterator* ri = api->GetIterator();
     tesseract::PageIteratorLevel level = tesseract::RIL_TEXTLINE;
     if(ri != 0) {
+        float conf = 0.0;
         do {
             const char* line = ri->GetUTF8Text(level);
-            float conf = ri->Confidence(level);
+            conf = ri->Confidence(level);
             if(line != 0) {
-                printf("line: %s", line);
-                printf("conf: %f\n", conf);
+                printf("%.6f || %s", conf, line);
             }
-            printf("------------------\n");
             delete[] line;
         } while((ri->Next(level)));
     }

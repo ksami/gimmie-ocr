@@ -1,5 +1,5 @@
 import script
-import difflib
+from fuzzywuzzy import fuzz
 
 filenames = [
     'receipt00.jpg',
@@ -7,28 +7,31 @@ filenames = [
     'receipt02.jpg'
 ]
 
-print('Accuracy percentages\n')
-
 for name in filenames:
     print('Processing ' + name + '...')
+    print('Actual || Expected || % Accuracy')
     
     diff = []
 
-    actual = script.process(name).split('\n')
+    # Process each image
+    actual = script.process(name)
     with open('./expected/' + name + '.txt', 'r') as f:
-        expected = f.read().split('\n')
+        expected = f.read().strip().split('\n')
 
+    # Calculate % accuracy
     for i in xrange(len(expected)):
         aline = actual[i]
-        eline = expected[i]
-        # ignore unnecessary lines
+        eline = expected[i].strip()
+        # ignore unnecessary lines eg. address
         if(eline.startswith('!')):
             continue
 
-        seq = difflib.SequenceMatcher(None, eline, aline)
-        diff.append(seq.ratio()*100)
+        acc = fuzz.ratio(aline, eline)
+        diff.append(acc)
+        print ' || '.join((aline, eline, str(acc)))
 
+    # average accuracy across all lines
     total = reduce(lambda x, y: x+y, diff)
     avg = total/len(diff)
 
-    print(name + ': ' + str(avg) + '\n')
+    print('Average accuracy: ' + str(avg) + '%\n')
