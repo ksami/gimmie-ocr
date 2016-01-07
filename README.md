@@ -2,6 +2,8 @@
 - Python 2.7
 - tesseract 3.04
 - SimpleCV 1.3
+
+#### Python packages
 - fuzzywuzzy 0.8.0
 - python-Levenshtein 0.12.0
 
