@@ -1,21 +1,21 @@
 # /usr/bin/python
-from datetime import datetime
-# from PIL import Image
-
-# import pytesseract
-from SimpleCV import Image as SImage
-from fuzzywuzzy import process as FProcess
 import subprocess
 import shlex
+import sys
+
+from SimpleCV import Image, Color
+from fuzzywuzzy import process as FProcess
 
 HEADING_LINES_COUNT = 8
 FLAG_CRITERIA_OCR = 50  # range 0-100
 FLAG_CRITERIA_FUZZY = 50  # range 0-100
+PARAM_STRETCH_THRESH_LOW = 140  # range 0-255
+PARAM_STRETCH_THRESH_HIGH = 140  # range 0-255, should be above LOW
 
 def process(filename):
     # Preprocessing
-    input_img = SImage('./images/' + filename)
-    img = input_img.binarize().invert().bilateralFilter().scale(2)
+    input_img = Image('./images/' + filename)
+    img = input_img.colorDistance(Color.BLACK).stretch(PARAM_STRETCH_THRESH_LOW, PARAM_STRETCH_THRESH_HIGH).scale(2)
     img.save('./processed/' + filename)
 
 
@@ -76,5 +76,12 @@ def process(filename):
         f.write('\n'.join(mapped))
 
 
-    # Return just the results list
-    return results
+    return zipped
+
+
+if __name__ == '__main__':
+    if len(sys.argv<1):
+        print 'Not enough arguments'
+        sys.exit(1)
+    else:
+        process(sys.argv[1])
