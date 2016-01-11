@@ -15,7 +15,7 @@ def test():
         diff = []
 
         # Process each image
-        actual = script.process(name)
+        actual = script.process(name, isFeedback=False, toWriteFile=True)
         with open('./expected/' + name + '.txt', 'r') as f:
             expected = f.read().strip().split('\n')
 

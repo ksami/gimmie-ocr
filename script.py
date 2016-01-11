@@ -9,18 +9,19 @@ from fuzzywuzzy import process as FProcess
 HEADING_LINES_COUNT = 8
 FLAG_CRITERIA_OCR = 50  # range 0-100
 FLAG_CRITERIA_FUZZY = 50  # range 0-100
-PARAM_STRETCH_THRESH_LOW = 140  # range 0-255
-PARAM_STRETCH_THRESH_HIGH = 140  # range 0-255, should be above LOW
 
-def process(filename):
+
+
+def process(proc_id, filename, stretch_thresh_low=140, stretch_thresh_high=140, rotate_angle=0, queue=None, toWriteFile=False):
     # Preprocessing
     input_img = Image('./images/' + filename)
-    img = input_img.colorDistance(Color.BLACK).stretch(PARAM_STRETCH_THRESH_LOW, PARAM_STRETCH_THRESH_HIGH).scale(2)
-    img.save('./processed/' + filename)
+
+    img = input_img.colorDistance(Color.BLACK).stretch(stretch_thresh_low, stretch_thresh_high).scale(2).rotate(rotate_angle, fixed=False)
+    img.save('./processed/'+ proc_id + '-' + filename)
 
 
     # OCR
-    ocr_bin = shlex.split('./ocr ./processed/' + filename)
+    ocr_bin = shlex.split('./ocr ./processed/' + proc_id + '-' + filename)
     process = subprocess.Popen(ocr_bin, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
 
@@ -62,21 +63,25 @@ def process(filename):
             flag = 'Flag'
 
         results.append(output_line + ' ' + price)
-        confidences.append(conf)
-        ratios.append(str(ratio))
+        confidences.append(float(conf))
+        ratios.append(ratio)
         flags.append(flag)
 
 
-    # Write results with flags for manual checking
     zipped = zip(results, confidences, ratios, flags)
-    mapped = map(lambda tup: ' || '.join(tup), zipped)
 
-    outfile = './results/' + filename + '.txt'
-    with open(outfile, 'w') as f:
-        f.write('\n'.join(mapped))
+    # Write results with flags for manual checking
+    if toWriteFile:
+        mapped = map(lambda tup: ' || '.join(str(tup)), zipped)
+        outfile = './results/' + filename + '.txt'
+        with open(outfile, 'w') as f:
+            f.write('\n'.join(mapped))
 
 
-    return zipped
+    if queue is None:
+        return zipped
+    else:
+        queue.put(zipped)
 
 
 if __name__ == '__main__':
