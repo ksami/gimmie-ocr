@@ -12,16 +12,18 @@ FLAG_CRITERIA_FUZZY = 50  # range 0-100
 
 
 
-def process(proc_id, filename, stretch_thresh_low=140, stretch_thresh_high=140, rotate_angle=0, queue=None, toWriteFile=False):
+def process(filename, task_id=0, stretch_thresh_low=140, stretch_thresh_high=140, rotate_angle=0, toWriteFile=False):
     # Preprocessing
+    print('Running task_id: ' + str(task_id))
     input_img = Image('./images/' + filename)
 
+
     img = input_img.colorDistance(Color.BLACK).stretch(stretch_thresh_low, stretch_thresh_high).scale(2).rotate(rotate_angle, fixed=False)
-    img.save('./processed/'+ proc_id + '-' + filename)
+    img.save('./processed/'+ str(task_id) + '-' + filename)
 
 
     # OCR
-    ocr_bin = shlex.split('./ocr ./processed/' + proc_id + '-' + filename)
+    ocr_bin = shlex.split('./ocr ./processed/' + str(task_id) + '-' + filename)
     process = subprocess.Popen(ocr_bin, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
 
@@ -78,10 +80,7 @@ def process(proc_id, filename, stretch_thresh_low=140, stretch_thresh_high=140, 
             f.write('\n'.join(mapped))
 
 
-    if queue is None:
-        return zipped
-    else:
-        queue.put(zipped)
+    return zipped
 
 
 if __name__ == '__main__':

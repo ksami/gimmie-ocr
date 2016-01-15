@@ -1,4 +1,4 @@
-import multiprocessing
+from multiprocessing import Pool
 import script
 from fuzzywuzzy import fuzz
 
@@ -27,52 +27,43 @@ filenames = [
 
 
 def main():
-    processes = []
-    queues = []
+    pool = Pool(processes=NUM_PROCESSES)
+    params = []
 
     filename = filenames[0]
-    print filename
+    print 'Filename is: ' + filename
 
+    task_id = 0
+
+    # Create tuples with each combination of params
+    for rotate_angle in xrange(PARAM_ROTATE_ANGLE_MIN, PARAM_ROTATE_ANGLE_MAX, PARAM_ROTATE_ANGLE_DELTA):
+        for thresh_low in xrange(PARAM_STRETCH_THRESH_MIN_LOW, PARAM_STRETCH_THRESH_MAX_LOW, PARAM_STRETCH_THRESH_DELTA_LOW):
+            for thresh_high in xrange(thresh_low, PARAM_STRETCH_THRESH_MAX_HIGH, PARAM_STRETCH_THRESH_DELTA_HIGH):
+                params.append((filename, task_id, thresh_low, thresh_high, rotate_angle))
+                task_id += 1
+
+
+    # Run processes
+    print 'Total number of tasks: ' + str(task_id)
+
+    results = pool.map(unpackTupleIntoFunc, params)
+
+    print 'Tasks have finished running, output is:\n\n'
+
+
+    # Process results 
     best_conf = 0
     best_ratio = 0
     best_result = None
 
-    proc_id = 0
+    for result in results:
 
-    # Create processes with each combination of params
-    for rotate_angle in xrange(PARAM_ROTATE_ANGLE_MIN, PARAM_ROTATE_ANGLE_MAX, PARAM_ROTATE_ANGLE_DELTA):
-        for thresh_low in xrange(PARAM_STRETCH_THRESH_MIN_LOW, PARAM_STRETCH_THRESH_MAX_LOW, PARAM_STRETCH_THRESH_DELTA_LOW):
-            for thresh_high in xrange(thresh_low, PARAM_STRETCH_THRESH_MAX_HIGH, PARAM_STRETCH_THRESH_DELTA_HIGH):
-                queue = multiprocessing.Queue()
-                proc = multiprocessing.Process(target=script.process, args=(str(proc_id), filename, thresh_low, thresh_high, rotate_angle, queue))
-                proc_id += 1
-
-                processes.append(proc)
-                queues.append(queue)
-
-
-    print 'total number of processes: ' + str(len(processes))
-
-    # Wait for all processes to complete
-    for i in xrange(0,len(processes),NUM_PROCESSES):
-        print 'running processes ' + str(i) + ' to ' + str(i+NUM_PROCESSES-1)
-        for j in xrange(NUM_PROCESSES):
-            if i+j<len(processes):
-                processes[i+j].start()
-        for j in xrange(NUM_PROCESSES):
-            if i+j<len(processes):
-                processes[i+j].join()
-
-
-    for queue in queues:
-        results = queue.get()
-
-        if len(results) == 0:
+        if len(result) == 0:
             continue
 
-        unzipped = [list(tup) for tup in zip(*results)]
+        unzipped = [list(tup) for tup in zip(*result)]
 
-        # Median values of OCR conf and fuzzy ratio
+        # Median or average values of OCR conf and fuzzy ratio
         # conf = median(unzipped[1])
         # ratio = median(unzipped[2])
         conf = average(unzipped[1])
@@ -82,12 +73,22 @@ def main():
         # TODO: check on line by line basis
         # which is the line to compare against?
         # length of results list not constant
+        # use fuzzy to find?
         if conf > best_conf or ratio > best_ratio:
-            best_result = results
+            best_result = result
 
 
     for res in best_result:
         print reduce(lambda s,t: ' || '.join((str(s),str(t))), res)
+
+
+    pool.close()
+    pool.join()
+
+
+# Unpack tuple in params before applying to script.process
+def unpackTupleIntoFunc(args):
+    return script.process(*args)
 
 
 def median(lst):
