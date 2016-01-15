@@ -56,8 +56,8 @@ def process(filename, task_id=0, stretch_thresh_low=140, stretch_thresh_high=140
             # assume price is last word in line
             item, price = ' '.join(item_and_price[:-1]).strip(), item_and_price[-1].strip()
 
-        # Use fuzzy string matching to correct result
-        predicted, ratio = FProcess.extractOne(item, choices)
+        # Use case-insensitive fuzzy string matching to correct result
+        predicted, ratio = FProcess.extractOne(item.upper(), choices)
         if ratio >= FLAG_CRITERIA_FUZZY and float(conf) >= FLAG_CRITERIA_OCR:
             output_line = predicted
             flag = ''

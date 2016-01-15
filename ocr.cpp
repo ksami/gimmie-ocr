@@ -14,7 +14,7 @@ int main(int argc, char** argv)
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
     api->Init(NULL, "eng");
     api->SetImage(image);
-    api->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-/");
+    api->SetVariable("tessedit_char_whitelist", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.-/");
     api->Recognize(NULL);
 
     tesseract::ResultIterator* ri = api->GetIterator();
