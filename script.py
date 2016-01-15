@@ -37,23 +37,24 @@ def process(filename, task_id=0, stretch_thresh_low=140, stretch_thresh_high=140
     confidences = []
     ratios = []
     flags = []
-    ignore_count = 0
+    header_count = 0
     for ln in lines:
         # don't process empty lines
         if(len(ln) == 0):
-            continue
-
-        # ignore 1st x lines of heading eg. FAIRPRICE XTRA
-        if(ignore_count<HEADING_LINES_COUNT):
-            ignore_count+=1
             continue
 
         # line in format "confidence || line"
         ocr_line = ln.split('||')
         conf, item_and_price = ocr_line[0], ocr_line[1].split(' ')
 
-        # assume price is last word in line
-        item, price = ' '.join(item_and_price[:-1]).strip(), item_and_price[-1].strip()
+        # header is 1st x lines eg. FAIRPRICE XTRA
+        if(header_count<HEADING_LINES_COUNT):
+            header_count+=1
+            item = ' '.join(item_and_price).strip()
+            price = ''
+        else:
+            # assume price is last word in line
+            item, price = ' '.join(item_and_price[:-1]).strip(), item_and_price[-1].strip()
 
         # Use fuzzy string matching to correct result
         predicted, ratio = FProcess.extractOne(item, choices)

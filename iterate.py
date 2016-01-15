@@ -30,7 +30,7 @@ def main():
     pool = Pool(processes=NUM_PROCESSES)
     params = []
 
-    filename = filenames[0]
+    filename = filenames[2]
     print 'Filename is: ' + filename
 
     task_id = 0
