@@ -11,7 +11,7 @@
 `g++ -o ocr ocr.cpp -ltesseract -llept`
 
 ## Run
-`python2 main.py`
+`python2 main.py`  
 `python2 iterate.py` for iterative version to decide parameter values
 
 
@@ -22,9 +22,9 @@
 5. Rotate image by rotate_angle degrees
 6. OCR using tesseract
 7. Prediction using fuzzy string matching
-8. If OCR confidence > 50% and fuzzy confidence > 50%
-    a. Correct output with prediction from fuzzy
-    b. Else, flag line
-9. Run steps 1-8 varying `stretch_thresh_low`, `stretch_thresh_high` and `rotate_angle`, if median OCR confidence > best or median fuzzy confidence > best
-    a. Use current set of lines as best result
-    b. Keep best result
+8. If OCR confidence > 50% and fuzzy confidence > 50%  
+    a. Correct output with prediction from fuzzy  
+    b. Else, flag line  
+9. Run steps 1-8 varying `stretch_thresh_low`, `stretch_thresh_high` and `rotate_angle`, if median OCR confidence > best or median fuzzy confidence > best  
+    a. Use current set of lines as best result  
+    b. Keep best result  
